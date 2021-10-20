@@ -21,6 +21,12 @@ public class Zones {
         int amountOfZones = numberOfElevators; // Amount of zones is equal to the amount of elevators.
         int i  = 0;
         int reminderOfFloors = (numberOfFloors % numberOfElevators);
+        /* First implementation simple zone dividing.
+           If the number of floors % number of elevators isn't zero then: The first zone (number 1)
+           will get the reminder of the divide above as his set of floors.
+           Then/else: each zone will get equally amount of floors.
+           Starting from Min floor to Max floor.
+         */
         if(reminderOfFloors != 0){
             int[] tempArr1 = {minFloor, minFloor + reminderOfFloors};
             _zones.add(new Zone(tempArr1, 0, 1));
@@ -34,10 +40,6 @@ public class Zones {
                 minFloor = minFloor + sizeOfZone;
                 i++;
             }
-
-
-
-
     }
 
 }
