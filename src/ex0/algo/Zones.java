@@ -16,14 +16,11 @@ public class Zones {
         int sizeOfZone = (int)(Math.ceil(numberOfFloors / numberOfElevators));
         _zones = new ArrayList<Zone>(numberOfElevators);
         int amountOfZones = _zones.size();
-//        ArrayList<ArrayList<Integer>> x = new ArrayList<ArrayList<Integer>>();
-//        for (int i = 0; i < zoneLength; i++) {
-//            ArrayList<Integer> y = new ArrayList<Integer>();
-//            x.add(y);
-//        }
-        for (int i = 1; i <= amountOfZones; i++){
-            int[] tempArr = {maxFloor, maxFloor - (sizeOfZone*i)};
-//            -_zones[0] =
+        int[] tempArr = new int[2];
+        for (int i = 0; i < amountOfZones; i++){
+            tempArr[0] = maxFloor;
+            tempArr[1] = maxFloor - (sizeOfZone*(i + 1));
+            _zones.add(new Zone(tempArr, i, i));
         }
 
     }
