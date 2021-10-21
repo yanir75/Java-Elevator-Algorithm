@@ -24,7 +24,7 @@ public class myAlgo implements ElevatorAlgo {
         zon=new Zones(b);
         for(int i=0;i<b.numberOfElevetors();i++)
         {
-            b.getElevetor(i).goTo(middleOfZone(i));
+            b.getElevetor(i).goTo(zon.middleOfZone(i));
         }
     }
 
@@ -54,7 +54,7 @@ public class myAlgo implements ElevatorAlgo {
 
 //        }
 //        numberOfReuqests[ind]++;
-        int ind = whichZone(c.getSrc());
+        int ind = zon.whichZone(c.getSrc());
 
         route[ind].add(c.getSrc());
         route[ind].add(c.getDest());
@@ -71,7 +71,7 @@ public class myAlgo implements ElevatorAlgo {
                 goingTo[elev] = route[elev].remove(0);
             }
             if(route[elev].size()==0)
-                curr.goTo(middleOfZone(elev));
+                curr.goTo(zon.middleOfZone(elev));
         }
     }
 
