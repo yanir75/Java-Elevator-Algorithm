@@ -8,6 +8,7 @@ public class Zones {
     private ArrayList<Zone> _zones;
 
 
+
     public Zones(Building b) {
         int maxFloor = b.maxFloor();
         int minFloor = b.minFloor();
@@ -29,19 +30,41 @@ public class Zones {
          */
         if(reminderOfFloors != 0){
             int[] tempArr1 = {minFloor, minFloor + reminderOfFloors};
-            _zones.add(new Zone(tempArr1, 0, 1));
+            _zones.add(new Zone(tempArr1, 0, 0));
             i += 1;
             minFloor = minFloor + reminderOfFloors;
         }
             while(i < amountOfZones){
                 // arr[0] = starting floor of zone, arr[1] = ending floor of zone -> the range of floors.
                 int tempArr[] = {minFloor, minFloor + sizeOfZone};
-                _zones.add(new Zone(tempArr, i, i + 1));
+                _zones.add(new Zone(tempArr, i, i));
                 minFloor = minFloor + sizeOfZone;
                 i++;
             }
     }
+
      public int numberOfZones() {
          return _zones.size();
      }
+
+     public int whichZone(int floor){
+        for( int i = 0; i< this._zones.size(); i++){
+            int[] setOfFloors = this._zones.get(i).get_setOfFloors();
+            int startingFloor = setOfFloors[0];
+            int endingFloor = setOfFloors[1];
+            if(floor >= startingFloor && floor <= endingFloor){
+                return i;
+            }
+        }
+        return -1;
+     }
+
+     public int middleOfZone(int zoneNum){
+         int[] setOfFloors = this._zones.get(i).get_setOfFloors();
+         int startingFloor = setOfFloors[0];
+         int endingFloor = setOfFloors[1];
+        return (startingFloor + endingFloor) / 2;
+    }
+
+
 }
