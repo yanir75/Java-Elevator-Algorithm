@@ -41,5 +41,7 @@ public class Zones {
                 i++;
             }
     }
-
+     public int numberOfZones() {
+         return _zones.size();
+     }
 }
