@@ -70,6 +70,8 @@ public class myAlgo implements ElevatorAlgo {
                 curr.goTo(route[elev].get(0));
                 goingTo[elev] = route[elev].remove(0);
             }
+            if(route[elev].size()==0)
+                curr.goTo(middleOfZone(elev));
         }
     }
 
