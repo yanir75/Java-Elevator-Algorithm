@@ -45,19 +45,27 @@ public class myAlgo implements ElevatorAlgo {
         int ind = 0;
         for (int j = 0; j < zon.numberOfZones(); j++) {
 //            if(i>numberOfReuqests[j])
-            if (route[j].size() < i) {
-                i = route[j].size();
-                ind = j;
-            }
-            if(isOnTheWay(c,int elev)){
+//            if (route[j].size() < i) {
+//                i = route[j].size();
+//                ind = j;
+//            }
+            if(isOnTheWay(c,j)){
                 ind =j;
             }
 
         }
         numberOfReuqests[ind].add(c);
-//        int ind = zon.whichZone(c.getSrc());
-        route[ind].add(c.getSrc());
-        route[ind].add(c.getDest());
+        if(isOnTheWay(c,ind))
+        {
+            b.getElevetor(ind).stop(c.getSrc());
+            route[ind].add(0,goingTo[ind]);
+            goingTo[ind]=c.getSrc();
+            route[ind].add(c.getDest());
+        }
+        else {
+            route[ind].add(c.getSrc());
+            route[ind].add(c.getDest());
+        }
         return ind;
     }
 
