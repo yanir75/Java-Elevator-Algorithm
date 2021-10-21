@@ -8,22 +8,22 @@ import java.util.ArrayList;
 
 public class myAlgo implements ElevatorAlgo {
     private Building b;
-    private int[] numberOfReuqests;
+    private ArrayList<CallForElevator>[] numberOfReuqests;
     private int[] goingTo;
     private ArrayList<Integer>[] route;
     private Zones zon;
 
     public myAlgo(Building b) {
         this.b = b;
-        numberOfReuqests = new int[b.numberOfElevetors()];
+        numberOfReuqests = new ArrayList[b.numberOfElevetors()];
         route = new ArrayList[b.numberOfElevetors()];
         for (int i = 0; i < route.length; i++) {
             route[i] = new ArrayList<Integer>();
+            numberOfReuqests[i] = new ArrayList<CallForElevator>();
         }
         goingTo = new int[b.numberOfElevetors()];
-        zon=new Zones(b);
-        for(int i=0;i<b.numberOfElevetors();i++)
-        {
+        zon = new Zones(b);
+        for (int i = 0; i < b.numberOfElevetors(); i++) {
             b.getElevetor(i).goTo(zon.middleOfZone(i));
         }
         System.out.println(zon.toString());
@@ -41,22 +41,21 @@ public class myAlgo implements ElevatorAlgo {
 
     @Override
     public int allocateAnElevator(CallForElevator c) {
-//        int i = route[0].size();
-//        int ind = 0;
-//        for (int j = 0; j < zon.numberOfZones(); j++) {
+        int i = route[0].size();
+        int ind = 0;
+        for (int j = 0; j < zon.numberOfZones(); j++) {
 //            if(i>numberOfReuqests[j])
-//            if (route[j].size() < i) {
-//                i = route[j].size();
-//                ind = j;
-//            }
-//            if(onTheWay(c,j)){
-//                ind =j;
-//            }
+            if (route[j].size() < i) {
+                i = route[j].size();
+                ind = j;
+            }
+            if(isOnTheWay(c,int elev)){
+                ind =j;
+            }
 
-//        }
-//        numberOfReuqests[ind]++;
-        int ind = zon.whichZone(c.getSrc());
-
+        }
+        numberOfReuqests[ind].add(c);
+//        int ind = zon.whichZone(c.getSrc());
         route[ind].add(c.getSrc());
         route[ind].add(c.getDest());
         return ind;
@@ -64,6 +63,7 @@ public class myAlgo implements ElevatorAlgo {
 
     @Override
     public void cmdElevator(int elev) {
+        clearDoneCalls(elev);
         Elevator curr = this.getBuilding().getElevetor(elev);
         int a = curr.getState();
         if (curr.getState() == Elevator.LEVEL) {
@@ -71,30 +71,23 @@ public class myAlgo implements ElevatorAlgo {
                 curr.goTo(route[elev].get(0));
                 goingTo[elev] = route[elev].remove(0);
             }
-            if(route[elev].size()==0)
-                curr.goTo(zon.middleOfZone(elev));
         }
     }
 
-    public static boolean sameDirection(CallForElevator c, Elevator e) {
-        if (e.getState()==Elevator.LEVEL) {
-            return true;
-        }
-        int type =c.getDest()-c.getSrc();
-        if(type>0&&e.getState()==Elevator.UP)
-            return true;
-        if(type<0&&e.getState()==Elevator.DOWN)
-            return true;
-        return false;
-    }
-    public static boolean isBetween(int i, int a,int b)
+    public void clearDoneCalls(int elev)
     {
-        return (i>a && i<b) || (i<a && i>b);
+        for (int i = 0; i < numberOfReuqests[elev].size(); i++) {
+          if(numberOfReuqests[elev].get(i).getState()==CallForElevator.DONE)
+          {
+              numberOfReuqests[elev].remove(i);
+          }
+        }
     }
-    public boolean onTheWay(CallForElevator c,int elev)
-    {   Elevator e =this.getBuilding().getElevetor(elev);
-        if (sameDirection(c,e)&&isBetween(c.getSrc(),e.getPos(),goingTo[elev]))
-        return true;
-        return false;
+    /**
+     * For netanel
+     * @param c
+     */
+    public boolean isOnTheWay(CallForElevator c,int elev) {
+      return true;
     }
 }
