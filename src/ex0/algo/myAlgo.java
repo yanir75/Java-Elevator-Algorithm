@@ -7,14 +7,14 @@ import ex0.Elevator;
 import java.util.ArrayList;
 
 public class myAlgo implements ElevatorAlgo {
-    private Building b;
+    private Building building;
     private ArrayList<CallForElevator>[] numberOfReuqests;
     private int[] goingTo;
     private ArrayList<Integer>[] route;
-    private Zones zon;
+    private Zones zones;
 
     public myAlgo(Building b) {
-        this.b = b;
+        this.building = b;
         numberOfReuqests = new ArrayList[b.numberOfElevetors()];
         route = new ArrayList[b.numberOfElevetors()];
         for (int i = 0; i < route.length; i++) {
@@ -22,16 +22,16 @@ public class myAlgo implements ElevatorAlgo {
             numberOfReuqests[i] = new ArrayList<CallForElevator>();
         }
         goingTo = new int[b.numberOfElevetors()];
-        zon = new Zones(b);
+        zones = new Zones(b);
         for (int i = 0; i < b.numberOfElevetors(); i++) {
-            b.getElevetor(i).goTo(zon.middleOfZone(i));
+            b.getElevetor(i).goTo(zones.middleOfZone(i));
         }
-        System.out.println(zon.toString());
+        System.out.println(zones.toString());
     }
 
     @Override
     public Building getBuilding() {
-        return b;
+        return building;
     }
 
     @Override
@@ -43,7 +43,7 @@ public class myAlgo implements ElevatorAlgo {
     public int allocateAnElevator(CallForElevator c) {
         int i = route[0].size();
         int ind = 0;
-        for (int j = 0; j < zon.numberOfZones(); j++) {
+        for (int j = 0; j < zones.numberOfZones(); j++) {
 //            if(i>numberOfReuqests[j])
 //            if (route[j].size() < i) {
 //                i = route[j].size();
@@ -57,7 +57,7 @@ public class myAlgo implements ElevatorAlgo {
         numberOfReuqests[ind].add(c);
         if(isOnTheWay(c,ind))
         {
-            b.getElevetor(ind).stop(c.getSrc());
+            building.getElevetor(ind).stop(c.getSrc());
             route[ind].add(0,goingTo[ind]);
             goingTo[ind]=c.getSrc();
             route[ind].add(c.getDest());
@@ -96,9 +96,9 @@ public class myAlgo implements ElevatorAlgo {
      * @param c
      */
     public boolean isOnTheWay(CallForElevator c,int elev) {
-        if(b.getElevetor(elev).getState() == 0){ return true;}
-        int currentPosition = b.getElevetor(elev).getPos();
-        int currentState = b.getElevetor(elev).getState();
+        if(building.getElevetor(elev).getState() == 0){ return true;}
+        int currentPosition = building.getElevetor(elev).getPos();
+        int currentState = building.getElevetor(elev).getState();
         int nextStop = route[elev].get(0);
         // going up
         if (currentState == 1 && currentPosition < c.getSrc() && nextStop >= c.getSrc()){
@@ -110,4 +110,6 @@ public class myAlgo implements ElevatorAlgo {
         }
       return false;
     }
+
+
 }
