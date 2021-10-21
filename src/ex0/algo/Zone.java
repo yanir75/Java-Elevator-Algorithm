@@ -33,7 +33,7 @@ public class Zone {
     }
 
     public String toString(){
-        return ""+ _setOfFloors[0] +", "+ _setOfFloors[1];
+        return "(" + _setOfFloors[0] + " -> " + _setOfFloors[1] + ")";
     }
 
 }
