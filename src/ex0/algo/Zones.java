@@ -21,7 +21,7 @@ public class Zones {
         _zones = new ArrayList<Zone>(numberOfElevators);
         int amountOfZones = numberOfElevators; // Amount of zones is equal to the amount of elevators.
         int i  = 0;
-        int reminderOfFloors = (numberOfFloors % numberOfElevators);
+        int reminderOfFloors = (numberOfFloors - ((numberOfElevators -1)*sizeOfZone));
         /* First implementation simple zone dividing.
            If the number of floors % number of elevators isn't zero then: The first zone (number 1)
            will get the reminder of the divide above as his set of floors.
@@ -29,18 +29,20 @@ public class Zones {
            Starting from Min floor to Max floor.
          */
         if(reminderOfFloors != 0){
-            int[] tempArr1 = {minFloor, minFloor + reminderOfFloors};
+            int[] tempArr1 = {minFloor, minFloor + reminderOfFloors - 1};
             _zones.add(new Zone(tempArr1, 0, 0));
             i += 1;
             minFloor = minFloor + reminderOfFloors;
         }
             while(i < amountOfZones){
                 // arr[0] = starting floor of zone, arr[1] = ending floor of zone -> the range of floors.
-                int tempArr[] = {minFloor, minFloor + sizeOfZone};
+                int tempArr[] = {minFloor , minFloor + sizeOfZone - 1};
                 _zones.add(new Zone(tempArr, i, i));
                 minFloor = minFloor + sizeOfZone;
                 i++;
             }
+//            int[] t = {minFloor +1, minFloor + sizeOfZone -1};
+//            _zones.add(new Zone(t, i, i));
     }
 
      public int numberOfZones() {
