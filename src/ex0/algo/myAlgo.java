@@ -96,6 +96,18 @@ public class myAlgo implements ElevatorAlgo {
      * @param c
      */
     public boolean isOnTheWay(CallForElevator c,int elev) {
-      return true;
+        if(b.getElevetor(elev).getState() == 0){ return true;}
+        int currentPosition = b.getElevetor(elev).getPos();
+        int currentState = b.getElevetor(elev).getState();
+        int nextStop = route[elev].get(0);
+        // going up
+        if (currentState == 1 && currentPosition < c.getSrc() && nextStop >= c.getSrc()){
+            return true;
+        }
+        // going down
+        else if(currentState == -1 && currentPosition > c.getSrc() && nextStop <= c.getSrc()){
+            return true;
+        }
+      return false;
     }
 }
