@@ -48,7 +48,7 @@ public class Zones {
      }
 
      public int whichZone(int floor){
-        for( int i = 0; i< this._zones.size(); i++){
+        for( int i = 0; i<this._zones.size(); i++){
             int[] setOfFloors = this._zones.get(i).get_setOfFloors();
             int startingFloor = setOfFloors[0];
             int endingFloor = setOfFloors[1];
@@ -66,5 +66,11 @@ public class Zones {
         return (startingFloor + endingFloor) / 2;
     }
 
-
+    public String toString(){
+        String str = "";
+        for (Zone z: this._zones) {
+          str+= z.toString()  + ", " ;
+        }
+        return str;
+    }
 }
