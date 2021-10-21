@@ -60,7 +60,7 @@ public class Zones {
      }
 
      public int middleOfZone(int zoneNum){
-         int[] setOfFloors = this._zones.get(i).get_setOfFloors();
+         int[] setOfFloors = this._zones.get(zoneNum).get_setOfFloors();
          int startingFloor = setOfFloors[0];
          int endingFloor = setOfFloors[1];
         return (startingFloor + endingFloor) / 2;
