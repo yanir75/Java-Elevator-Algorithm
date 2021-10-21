@@ -94,6 +94,7 @@ public class myAlgo implements ElevatorAlgo {
     /**
      * For netanel
      * @param c
+     * d
      */
     public boolean isOnTheWay(CallForElevator c,int elev) {
         if(building.getElevetor(elev).getState() == 0){ return true;}
