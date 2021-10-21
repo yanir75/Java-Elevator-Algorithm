@@ -32,4 +32,8 @@ public class Zone {
         return false;
     }
 
+    public String toString(){
+        return ""+ _setOfFloors[0] +", "+ _setOfFloors[1];
+    }
+
 }
