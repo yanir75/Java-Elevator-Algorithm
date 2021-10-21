@@ -26,6 +26,7 @@ public class myAlgo implements ElevatorAlgo {
         {
             b.getElevetor(i).goTo(zon.middleOfZone(i));
         }
+        System.out.println(zon.toString());
     }
 
     @Override
