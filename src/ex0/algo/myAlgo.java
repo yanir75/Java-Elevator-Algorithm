@@ -99,13 +99,14 @@ public class myAlgo implements ElevatorAlgo {
         if(building.getElevetor(elev).getState() == 0){ return true;}
         int currentPosition = building.getElevetor(elev).getPos();
         int currentState = building.getElevetor(elev).getState();
+        if(route[elev].size() == 0){ return false;}
         int nextStop = route[elev].get(0);
         // going up
-        if (currentState == 1 && currentPosition < c.getSrc() && nextStop >= c.getSrc()){
+        if (currentState == 1 && currentPosition < c.getSrc() && nextStop >= c.getSrc() && c.getSrc() <= c.getDest()){
             return true;
         }
         // going down
-        else if(currentState == -1 && currentPosition > c.getSrc() && nextStop <= c.getSrc()){
+        else if(currentState == -1 && currentPosition > c.getSrc() && nextStop <= c.getSrc() && c.getSrc() >= c.getDest()){
             return true;
         }
       return false;
