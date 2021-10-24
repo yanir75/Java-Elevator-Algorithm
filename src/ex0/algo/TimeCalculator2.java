@@ -106,12 +106,12 @@ public class TimeCalculator2 {
             el.goTo(c.getSrc());
             currDest=c.getSrc();
         }
-        else if(((el.getPos()<=c.getSrc() && c.getSrc()>=currDest )|| (c.getSrc()>=el.getPos() && c.getSrc()<=currDest))&& i==0)
+        else if(((el.getPos()<=c.getSrc() && c.getSrc()>=currDest )|| (c.getSrc()> el.getPos() && c.getSrc()<currDest))&& i==0 && el.getState()!=Elevator.LEVEL)
         {   route.add(0,currDest);
             el.stop(c.getSrc());
             currDest=c.getSrc();
         }
-        else if(i==0)
+        else if(i==0 && el.getState()!=Elevator.LEVEL)
         {   route.add(0,currDest);
             el.stop(el.getPos());
             currDest=el.getPos();
