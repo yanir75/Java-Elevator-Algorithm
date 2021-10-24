@@ -1,8 +1,6 @@
 package ex0.algo;
 
-import ex0.Building;
-import ex0.CallForElevator;
-import ex0.Elevator;
+import ex0.*;
 
 import java.sql.Time;
 

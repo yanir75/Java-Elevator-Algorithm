@@ -1,6 +1,8 @@
 package ex0;
 
-import ex0.algo.*;
+import ex0.*;
+import ex0.algo.ElevatorAlgo;
+import ex0.algo.MyAlgorithm;
 import ex0.simulator.Simulator_A;
 
 /**
