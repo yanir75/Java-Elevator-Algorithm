@@ -8,14 +8,16 @@ import java.util.ArrayList;
 public class TimeCalculator2 {
 
     private ArrayList<CallForElevator> calls;
-    private ArrayList<Integer> route;
-    private Elevator el;
+    public ArrayList<Integer> route;
+    public Elevator el;
+    private int currDest;
 
     public TimeCalculator2(Elevator eli)
     {
         el=eli;
         calls= new ArrayList<CallForElevator>();
         route=new ArrayList<Integer>();
+        currDest=el.getMinFloor()-1;
     }
     private double dist(int src,int pos) {
         double ans = -1;
@@ -98,9 +100,23 @@ public class TimeCalculator2 {
         return new double[]{indOfSource,indOfDest,totalTime+time};
     }
     public void addToRoute(CallForElevator c,int i,int j) {
-        if(route.size()>0&&i==0)
+        this.cleanDoneCalls();
+        if((el.getState()==Elevator.LEVEL && i==0) ||calls.size()==0)
         {
-            el.stop(i);
+            el.goTo(c.getSrc());
+            currDest=c.getSrc();
+        }
+        else if(((el.getPos()<=c.getSrc() && c.getSrc()>=currDest )|| (c.getSrc()>=el.getPos() && c.getSrc()<=currDest))&& i==0)
+        {
+            el.stop(c.getSrc());
+            currDest=c.getSrc();
+        }
+        else if(i==0)
+        {
+            el.stop(el.getPos());
+            currDest=el.getPos();
+            el.goTo(c.getSrc());
+            currDest=c.getSrc();
         }
         route.add(i,c.getSrc());
         route.add(j,c.getDest());
@@ -111,4 +127,9 @@ public class TimeCalculator2 {
             if(calls.get(i).getState()==CallForElevator.DONE)
                 calls.remove(i);
     }
+    public void setCurrDest(int i)
+    {
+        currDest=i;
+    }
+    public void addToCalls(CallForElevator c){calls.add(c);}
 }
