@@ -60,6 +60,7 @@ public class MyAlgorithm implements ElevatorAlgo{
          {
              TC[elev].el.goTo(TC[elev].route.get(0));
              TC[elev].setCurrDest(TC[elev].route.get(0));
+             TC[elev].route.remove(0);
          }
     }
 
