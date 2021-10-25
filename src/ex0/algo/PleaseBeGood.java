@@ -48,4 +48,27 @@ public class PleaseBeGood {
     public void setPath(ArrayList<Integer> path) {
         this.path = path;
     }
+
+    public void removeDuplicateFloors(){
+        if(this.path.size() > 1) {
+            for (int i = 1; i < this.path.size(); i++) {
+                if(this.path.get(i-1) == this.path.get(i)){
+                    this.path.remove(i);
+                    i--;
+                }
+            }
+        }
+    }
+
+    public int pathSize(){
+        removeDuplicateFloors();
+        return this.path.size();
+    }
+
+
+
+
+
+
+
 }
