@@ -10,8 +10,11 @@ public class PleaseBeGood {
    private int elevIndex;
    private int currDest;
 
-    public PleaseBeGood(){
-
+    public PleaseBeGood(Elevator e, int elevIndex){
+    this.elevator = e;
+    this.elevIndex = elevIndex;
+    this.path = new ArrayList<Integer>();
+    this.currDest = this.path.get(0);
     }
 
     public ArrayList<Integer> getPath() {
