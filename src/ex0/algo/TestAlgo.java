@@ -35,7 +35,7 @@ public class TestAlgo implements ElevatorAlgo{
 
     @Override
     public int allocateAnElevator(CallForElevator c) {
-        int min = Integer.MAX_VALUE;
+        double min = Integer.MAX_VALUE;
         int ind = 0;
         for(int i=0;i<b.numberOfElevetors();i++)
         {
@@ -48,11 +48,11 @@ public class TestAlgo implements ElevatorAlgo{
         route[ind].add(c.getDest());
         return ind;
     }
-    public int numberOfFloors(int i,CallForElevator c)
-    {   int sum=0;
+    public double numberOfFloors(int i,CallForElevator c)
+    {   double sum=0;
         if(route[i].size()==0)
         {
-            return Math.abs(c.getDest()-c.getSrc())+Math.abs(c.getSrc()-b.getElevetor(i).getPos());
+            return (Math.abs(c.getDest()-c.getSrc())+Math.abs(c.getSrc()-b.getElevetor(i).getPos()))/b.getElevetor(i).getSpeed();
         }
         sum+=Math.abs(route[i].get(0)-b.getElevetor(i).getPos());
         for(int j=1;j<route[i].size();j++)
@@ -60,6 +60,7 @@ public class TestAlgo implements ElevatorAlgo{
             sum+=Math.abs(route[i].get(j)-route[i].get(j-1));
         }
         sum+=Math.abs(c.getDest()-c.getSrc())+Math.abs(c.getSrc()-route[i].get(route[i].size()-1));
+        sum=sum/b.getElevetor(i).getSpeed();
         return sum;
     }
     @Override
