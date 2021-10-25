@@ -1,5 +1,6 @@
 package ex0.algo;
 
+import ex0.CallForElevator;
 import ex0.Elevator;
 
 import java.util.ArrayList;
@@ -9,12 +10,23 @@ public class PleaseBeGood {
    private Elevator elevator;
    private int elevIndex;
    private int currDest;
+   private ArrayList<CallForElevator> calls;
+
 
     public PleaseBeGood(Elevator e, int elevIndex){
     this.elevator = e;
     this.elevIndex = elevIndex;
     this.path = new ArrayList<Integer>();
-    this.currDest = e.getMinFloor()-1;
+    this.currDest = Integer.MAX_VALUE;
+    this.calls = new ArrayList<CallForElevator>();
+    }
+
+    public ArrayList<CallForElevator> getCalls() {
+        return calls;
+    }
+
+    public void setCalls(ArrayList<CallForElevator> calls) {
+        this.calls = calls;
     }
 
     public ArrayList<Integer> getPath() {
