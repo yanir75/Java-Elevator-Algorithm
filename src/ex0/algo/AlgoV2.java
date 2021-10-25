@@ -19,7 +19,17 @@ public class AlgoV2 implements ElevatorAlgo {
 
     @Override
     public int allocateAnElevator(CallForElevator c) {
-        return 0;
+        int minPathElevInd = -1;
+        int minPath = Integer.MAX_VALUE;
+        for(int i = 0; i < please.length ; i++){
+            if(please[i].pathSize() < minPath){
+                minPath = please[i].pathSize();
+                minPathElevInd = i;
+            }
+        }
+        please[minPathElevInd].getPath().add(c.getSrc());
+        please[minPathElevInd].getPath().add(c.getDest());
+        return minPathElevInd;
     }
 
     public boolean canStop(PleaseBeGood p,int pos)
