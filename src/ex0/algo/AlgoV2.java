@@ -49,6 +49,7 @@ public class AlgoV2 implements ElevatorAlgo {
             }
         }
         if(minPathElevInd!=-1) {
+            please[minPathElevInd].getPath().add(bestInd, src);
             please[minPathElevInd].getPath().add(dest);
             please[minPathElevInd].getCalls().add(c);
             return minPathElevInd;
