@@ -102,7 +102,7 @@ public class TimeCalculator2 {
     public void addToRoute(CallForElevator c,int i,int j) {
         this.cleanDoneCalls();
         boolean f=false;
-        if((el.getState()==Elevator.LEVEL && i==0) ||route.size()==0)
+        if((el.getState()==Elevator.LEVEL && i==0) ||route.size()==0 && el.getState()==Elevator.LEVEL)
         {
             el.goTo(c.getSrc());
             currDest=c.getSrc();
@@ -130,6 +130,10 @@ public class TimeCalculator2 {
         }
         calls.add(c);
     }
+
+
+
+
     public void cleanDoneCalls(){
         for(int i=0;i<calls.size();i++)
             if(calls.get(i).getState()==CallForElevator.DONE)

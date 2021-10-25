@@ -26,9 +26,8 @@ public class Zone {
     public int zoneSize() {return this._setOfFloors.length;}
 
     public boolean isInZone(int x){
-        for (int i : this._setOfFloors) {
-            if(i == x) {return true;}
-        }
+        if(x>=_setOfFloors[0] && x<=_setOfFloors[1])
+            return true;
         return false;
     }
 

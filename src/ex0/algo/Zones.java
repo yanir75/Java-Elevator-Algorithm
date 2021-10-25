@@ -6,7 +6,10 @@ import java.util.ArrayList;
 public class Zones {
     private ArrayList<Zone> _zones;
 
-
+   public Zone getZone(int i)
+   {
+       return _zones.get(i);
+   }
 
     public Zones(Building b) {
         int maxFloor = b.maxFloor();

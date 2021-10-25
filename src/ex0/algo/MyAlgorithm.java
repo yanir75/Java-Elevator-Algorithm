@@ -8,6 +8,7 @@ public class MyAlgorithm implements ElevatorAlgo{
     private Building _building;
     private int [] zones;
     private TimeCalculator2[] TC;
+    private int calls;
 
     public MyAlgorithm(Building building){
         this._building=building;
@@ -16,6 +17,7 @@ public class MyAlgorithm implements ElevatorAlgo{
         {
             TC[i]=new TimeCalculator2(_building.getElevetor(i));
         }
+        calls=calls;
     }
     @Override
     public Building getBuilding() {
@@ -29,6 +31,7 @@ public class MyAlgorithm implements ElevatorAlgo{
 
     @Override
     public int allocateAnElevator(CallForElevator c) {
+        calls++;
         double min=Double.MAX_VALUE;
         double arr[] = new double[2];
         int index=-1;
