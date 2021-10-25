@@ -14,7 +14,7 @@ public class PleaseBeGood {
     this.elevator = e;
     this.elevIndex = elevIndex;
     this.path = new ArrayList<Integer>();
-    this.currDest = this.path.get(0);
+    this.currDest = e.getMinFloor()-1;
     }
 
     public ArrayList<Integer> getPath() {

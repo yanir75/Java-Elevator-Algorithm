@@ -7,6 +7,15 @@ import ex0.Elevator;
 public class AlgoV2 implements ElevatorAlgo {
     private Building b;
     private PleaseBeGood[] please;
+    public AlgoV2(Building b1) {
+        b = b1;
+        please=new PleaseBeGood[b.numberOfElevetors()];
+        for(int i=0;i<b.numberOfElevetors();i++)
+        {
+            please[i]=new PleaseBeGood(b.getElevetor(i),i);
+        }
+    }
+
     @Override
     public Building getBuilding() {
         return b;
