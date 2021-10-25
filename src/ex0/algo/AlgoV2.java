@@ -60,18 +60,20 @@ public class AlgoV2 implements ElevatorAlgo {
     public void cmdElevator(int elev) {
         Elevator el = b.getElevetor(elev);
         PleaseBeGood p = please[elev];
+        if (p.getCurrDest()==el.getPos()&&p.pathSize()>0)
+        {
+            p.getPath().remove(0);
+        }
         int routeSize = p.pathSize();
         if (routeSize > 0) {
-            int nextDest = p.getPath().get(0);
-            if (p.getCurrDest() != nextDest) {
-                if (canStop(p, nextDest)) {
+               int nextDest = p.getPath().get(0);
+            if (p.getCurrDest() != nextDest && canStop(p,nextDest)) {
                     el.stop(nextDest);
                     p.setCurrDest(nextDest);
-                }
             } else if (Elevator.LEVEL == el.getState()) {
-                el.goTo(0);
+                el.goTo(nextDest);
                 p.setCurrDest(nextDest);
-            } else {
+            } else if (nextDest!= p.getCurrDest()) {
                 el.stop(el.getPos());
                 el.goTo(nextDest);
                 p.setCurrDest(nextDest);
