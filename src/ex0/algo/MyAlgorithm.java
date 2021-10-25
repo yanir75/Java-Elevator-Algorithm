@@ -53,6 +53,7 @@ public class MyAlgorithm implements ElevatorAlgo{
 
     @Override
     public void cmdElevator(int elev) {
+        if(TC[elev].a)
         if(TC[elev].el.getState()==Elevator.LEVEL && TC[elev].route.size()>0)
         { if(TC[elev].route.get(0)==TC[elev].el.getPos())
             TC[elev].route.remove(0);

@@ -85,6 +85,9 @@ public class Zones {
         return (startingFloor + endingFloor) / 2;
     }
 
+
+
+
     public String toString(){
         String str = "[";
         for (Zone z: this._zones) {

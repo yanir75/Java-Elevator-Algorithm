@@ -11,9 +11,11 @@ public class TimeCalculator2 {
     public ArrayList<Integer> route;
     public Elevator el;
     private int currDest;
+    public boolean a;
 
     public TimeCalculator2(Elevator eli)
     {
+        a=false;
         el=eli;
         calls= new ArrayList<CallForElevator>();
         route=new ArrayList<Integer>();
@@ -111,6 +113,7 @@ public class TimeCalculator2 {
         {   route.add(0,currDest);
             el.stop(c.getSrc());
             currDest=c.getSrc();
+            a=true;
         }
         else if(i==0 && el.getState()!=Elevator.LEVEL)
         {   route.add(0,currDest);
@@ -118,6 +121,7 @@ public class TimeCalculator2 {
             currDest=el.getPos();
             el.goTo(c.getSrc());
             currDest=c.getSrc();
+            a=true;
         }
         else{
         route.add(i,c.getSrc());
