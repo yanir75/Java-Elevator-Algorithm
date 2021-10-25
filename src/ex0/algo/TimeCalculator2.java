@@ -12,6 +12,9 @@ public class TimeCalculator2 {
     public Elevator el;
     private int currDest;
     public boolean a;
+    public boolean stop;
+    public int floor;
+    public boolean goToSrc;
 
     public TimeCalculator2(Elevator eli)
     {
@@ -20,6 +23,8 @@ public class TimeCalculator2 {
         calls= new ArrayList<CallForElevator>();
         route=new ArrayList<Integer>();
         currDest=el.getMinFloor()-1;
+        stop=false;
+        goToSrc=false;
     }
     private double dist(int src,int pos) {
         double ans = -1;
@@ -111,15 +116,17 @@ public class TimeCalculator2 {
         }
         else if(((el.getPos()>=c.getSrc() && c.getSrc()>=currDest )|| (c.getSrc()>= el.getPos() && c.getSrc()<=currDest))&& i==0 && el.getState()!=Elevator.LEVEL)
         {   route.add(0,currDest);
-            el.stop(c.getSrc());
+            stop=true;
+            floor=c.getSrc();
             currDest=c.getSrc();
             a=true;
         }
         else if(i==0 && el.getState()!=Elevator.LEVEL)
         {   route.add(0,currDest);
-            el.stop(el.getPos());
+            stop=true;
+            floor=el.getPos();
             currDest=el.getPos();
-            el.goTo(c.getSrc());
+            route.add(0, c.getSrc());
             currDest=c.getSrc();
             a=true;
         }

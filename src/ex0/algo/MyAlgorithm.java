@@ -64,6 +64,18 @@ public class MyAlgorithm implements ElevatorAlgo{
              TC[elev].setCurrDest(TC[elev].route.get(0));
              TC[elev].route.remove(0);
          }
+         if (TC[elev].stop && TC[elev].goToSrc)
+         {
+             TC[elev].el.stop(TC[elev].floor+1);
+             TC[elev].el.stop(TC[elev].floor-1);
+             TC[elev].stop=false;
+             TC[elev].goToSrc=false;
+         }
+         if(TC[elev].stop)
+         {
+             TC[elev].el.stop(TC[elev].floor);
+             TC[elev].stop=false;
+         }
     }
 
 
