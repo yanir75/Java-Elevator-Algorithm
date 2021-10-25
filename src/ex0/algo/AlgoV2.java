@@ -30,6 +30,7 @@ public class AlgoV2 implements ElevatorAlgo {
     public int allocateAnElevator(CallForElevator c) {
         int minPathElevInd = -1;
         int minPath = Integer.MAX_VALUE;
+        int bestInd = -1;
         int src = c.getSrc();
         int dest = c.getDest();
         for(int i = 0; i < please.length ; i++){
@@ -37,12 +38,20 @@ public class AlgoV2 implements ElevatorAlgo {
                 int k = please[i].getPath().indexOf(src);
                 if(please[i].getPath().size() -1 > k){
                     if(please[i].getPath().get(k +1) >= dest){
-                        please[i].getPath().add(k+1, c.getDest());
-                        please[i].getCalls().add(c);
-                        return i;
+                        if(minPath>please[i].pathSize())
+                        {
+                            minPath=please[i].pathSize();
+                            bestInd=k;
+                            minPathElevInd=i;
+                        }
                     }
                 }
             }
+        }
+        if(minPathElevInd!=-1) {
+            please[minPathElevInd].getPath().add(dest);
+            please[minPathElevInd].getCalls().add(c);
+            return minPathElevInd;
         }
         for(int i = 0; i < please.length ; i++){
             if(please[i].pathSize() < minPath){
