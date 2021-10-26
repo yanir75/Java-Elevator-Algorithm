@@ -128,17 +128,43 @@ public class AlgoByZones implements ElevatorAlgo {
 
         //Phase 3
         for(int i = 0 ; i < this.numOfElevators; i++){
-            Elevator el = this.elev[i];
-            Zone z = this.zones.getZone(i);
-            if(z.isInZone(src)){
-
+            if(this.goingToZone[i]) {
+                Elevator el = this.elev[i];
+                Zone z = this.zones.getZone(i);
+                if (0 == el.getState() && z.isInZone(src) && this.route_down[i].size() == 0 && this.route_up[i].size() == 0) {
+                    //Up
+                    if(type == 1){
+                        this.route_up[i].add(src);
+                        this.route_up[i].add(dest);
+                    }
+                    //Down
+                    else{
+                        this.route_down[i].add(src);
+                        this.route_down[i].add(dest);
+                    }
+                    return i;
+                }
             }
-
         }
 
 
         //Phase 4
+        Zone zoneNewCall;
+        Zone zoneCurrDest;
+        for(int i = 0; i < this.zones.numberOfZones(); i++){
+            if(this.zones.getZone(i).isInZone(src)){
+                zoneNewCall = this.zones.getZone(i);
+                break;
+            }
+        }
+        for(int i = 0 ; i < this.numOfElevators; i++){
+            if(this.goingToZone[i]) {
+                Elevator el = this.elev[i];
+                Zone z = this.zones.getZone(i);
 
+
+                }
+            }
 
 
         //Phase 5
