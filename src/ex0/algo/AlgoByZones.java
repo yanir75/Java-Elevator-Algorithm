@@ -48,7 +48,7 @@ public class AlgoByZones implements ElevatorAlgo {
         if(path.size()-1 == minIndAllowed){return minIndAllowed+1;}
         int minSub = Integer.MAX_VALUE;
         int bestInd = -1;
-        for(int i = minIndAllowed + 1; i < this.numOfElevators; i++){
+        for(int i = minIndAllowed + 1; i < path.size(); i++){
             int sub = Math.abs(path.get(i) - floor);
             if(sub < minSub){
                 minSub = sub;
@@ -96,14 +96,30 @@ public class AlgoByZones implements ElevatorAlgo {
                 //up
                 Elevator el = this.elev[i];
                 if (type == el.getState() && el.getPos() < src && dest <= this.route_up[i].get(0)) {
-                    this.route_up[i].add(0, dest);
-                    this.route_up[i].add(0, src);
+                    int s_ind = whereToAdd(this.route_up[i], src, 0, 1 );
+                    if(s_ind == this.route_up[i].size()-1){
+                        this.route_up[i].add(src);
+                        this.route_up[i].add(dest);
+                    }
+                    else {
+                        this.route_up[i].add(s_ind, src);
+                        int d_ind = whereToAdd(this.route_up[i], dest, s_ind, 1);
+                        this.route_up[i].add(d_ind, dest);
+                    }
                     return i;
                 }
                 //Down
                 if (type == el.getState() && el.getPos() > src && dest >= this.route_down[i].get(0)) {
-                    this.route_down[i].add(0, dest);
-                    this.route_down[i].add(0, src);
+                    int s_ind = whereToAdd(this.route_down[i], src, 0, -1 );
+                    if(s_ind == this.route_down[i].size()-1){
+                        this.route_down[i].add(src);
+                        this.route_down[i].add(dest);
+                    }
+                    else {
+                        this.route_down[i].add(s_ind, src);
+                        int d_ind = whereToAdd(this.route_down[i], dest, s_ind, -1);
+                        this.route_down[i].add(d_ind, dest);
+                    }
                     return i;
                 }
             }
@@ -111,7 +127,14 @@ public class AlgoByZones implements ElevatorAlgo {
 
 
         //Phase 3
+        for(int i = 0 ; i < this.numOfElevators; i++){
+            Elevator el = this.elev[i];
+            Zone z = this.zones.getZone(i);
+            if(z.isInZone(src)){
 
+            }
+
+        }
 
 
         //Phase 4
