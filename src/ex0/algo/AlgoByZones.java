@@ -3,7 +3,6 @@ package ex0.algo;
 import ex0.Building;
 import ex0.CallForElevator;
 import ex0.Elevator;
-
 import java.util.ArrayList;
 
 public class AlgoByZones implements ElevatorAlgo {
@@ -44,18 +43,26 @@ public class AlgoByZones implements ElevatorAlgo {
         return "AlgoByZones";
     }
 
-    public int whereToAdd(ArrayList<Integer> path, int floor, int minIndAllowed){
+
+    public int whereToAdd(ArrayList<Integer> path, int floor, int minIndAllowed, int type){
+        if(path.size()-1 == minIndAllowed){return minIndAllowed+1;}
         int minSub = Integer.MAX_VALUE;
         int bestInd = -1;
-        for(int i = 0; i < this.numOfElevators; i++){
-            int sub = path.get(i) - floor;
+        for(int i = minIndAllowed + 1; i < this.numOfElevators; i++){
+            int sub = Math.abs(path.get(i) - floor);
             if(sub < minSub){
-                minSub =
-
+                minSub = sub;
+                bestInd = i;
             }
         }
-        return 0;
+        if(type == 1 && floor <= path.get(bestInd)){return bestInd;}
+        else if(type == 1 && floor > path.get(bestInd)){return bestInd +1;}
+        else if (type == -1 && floor >= path.get(bestInd)){return bestInd;}
+        else if (type == -1 && floor < path.get(bestInd)){return bestInd +1;}
+        return -1;
     }
+
+
     @Override
     public int allocateAnElevator(CallForElevator c) {
         int src = c.getSrc();
