@@ -17,6 +17,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\out\Ex0_Calls_case_2_.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\out\Ex0_Calls_case_5_.csv">
           <value>
             <Attribute>

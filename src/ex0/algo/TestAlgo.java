@@ -65,7 +65,6 @@ public class TestAlgo implements ElevatorAlgo {
             }
         }
         calls[0].add(c);
-
         return 0;
     }
 
