@@ -21,6 +21,11 @@ public class Zone {
 
     public int[] get_setOfFloors() {return _setOfFloors;}
 
+    public void set_setOfFloors(Zone z, int start, int end) {
+        z._setOfFloors[0] = start;
+        z._setOfFloors[1] = end;
+    }
+
     public int get_zoneNumber() {return _zoneNumber;}
 
     public int zoneSize() {return this._setOfFloors.length;}

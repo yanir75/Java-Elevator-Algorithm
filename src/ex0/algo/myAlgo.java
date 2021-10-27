@@ -22,7 +22,7 @@ public class myAlgo implements ElevatorAlgo {
             numberOfReuqests[i] = new ArrayList<CallForElevator>();
         }
         goingTo = new int[b.numberOfElevetors()];
-        zones = new Zones(b);
+//        zones = new Zones(b);
         for (int i = 0; i < b.numberOfElevetors(); i++) {
             b.getElevetor(i).goTo(zones.middleOfZone(i));
         }

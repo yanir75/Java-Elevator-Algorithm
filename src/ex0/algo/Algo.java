@@ -15,7 +15,7 @@ public class Algo implements ElevatorAlgo{
     {
         el=new ArrayList<ElevatorD>();
         b=build;
-        z=new Zones(b);
+//        z=new Zones(b);
         for(int i=0;i<b.numberOfElevetors();i++)
         {
             el.add(new ElevatorD(b.getElevetor(i),i));
