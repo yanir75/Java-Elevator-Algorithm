@@ -68,7 +68,7 @@ public class AlgoByZones implements ElevatorAlgo {
         int src = c.getSrc();
         int dest = c.getDest();
         int state = c.getState();
-        int type = c.getType();
+        int type = src < dest ? 1 : -1;
         //Phase 1
         for(int i = 0 ; i < this.numOfElevators; i++){
             //up
@@ -77,14 +77,14 @@ public class AlgoByZones implements ElevatorAlgo {
             if(type == el.getState() && el.getPos() < src && z.isInZone(dest)){
                 this.route_up[i].add(src);
                 this.route_up[i].add(dest);
-                this.goingToZone[i] = true;
+//                this.goingToZone[i] = true;
                 return i;
             }
             //Down
             if(type == el.getState() && el.getPos() > src && z.isInZone(dest)){
                 this.route_down[i].add(src);
                 this.route_down[i].add(dest);
-                this.goingToZone[i] = true;
+//                this.goingToZone[i] = true;
                 return i;
             }
         }
@@ -149,20 +149,79 @@ public class AlgoByZones implements ElevatorAlgo {
 
 
         //Phase 4
-        Zone zoneNewCall;
-        Zone zoneCurrDest;
+        Zone zoneNewCall = this.zones.getZone(0);
+//        int indexOfElevatorOfNewCall = -1;
         for(int i = 0; i < this.zones.numberOfZones(); i++){
-            if(this.zones.getZone(i).isInZone(src)){
-                zoneNewCall = this.zones.getZone(i);
-                break;
+            if(this.goingToZone[i]) {
+                if (this.zones.getZone(i).isInZone(src)) {
+                    zoneNewCall = this.zones.getZone(i);
+//                indexOfElevatorOfNewCall = this.zones.getZone(i).get_elevatorIndex();
+                    break;
+                }
             }
         }
         for(int i = 0 ; i < this.numOfElevators; i++){
             if(this.goingToZone[i]) {
                 Elevator el = this.elev[i];
                 Zone z = this.zones.getZone(i);
-
-
+                //Up
+                if(zoneNewCall.isInZone(this.route_up[i].get(0)) && type == 1){
+                    // if the route of this elevator to this zone contains only one floor
+                    if(this.route_up[i].size() == 1){
+                        // if new src and new dest are before (smaller) this elev next dest add them before
+                        if(this.route_up[i].get(0) > src && this.route_up[i].get(0) > dest){
+                            this.route_up[i].add(0, dest);
+                            this.route_up[i].add(0, src);
+                        }
+                        /* if only the new src is smaller than this elev next dest then
+                           add: src -> original dest -> new dest.
+                         */
+                        else if(this.route_up[i].get(0) > src){
+                            this.route_up[i].add(0, src);
+                            this.route_up[i].add(dest);
+                        }
+                        // add it after you finish this current call.
+                        else{
+                            this.route_up[i].add(src);
+                            this.route_up[i].add(dest);
+                        }
+                    }
+                    // the route is bigger than 1 -> add the new call to the end of the route.
+                    else{
+                        this.route_up[i].add(src);
+                        this.route_up[i].add(dest);
+                    }
+                    return i;
+                }
+                //Down
+                if(zoneNewCall.isInZone(this.route_down[i].get(0)) && type == -1){
+                    // if the route of this elevator to this zone contains only one floor
+                    if(this.route_down[i].size() == 1){
+                        // if new src and new dest are before (bigger) this elev next dest add them before
+                        if(this.route_down[i].get(0) < src && this.route_down[i].get(0) < dest){
+                            this.route_down[i].add(0, dest);
+                            this.route_down[i].add(0, src);
+                        }
+                        /* if only the new src is bigger than this elev next dest then
+                           add: src -> original dest -> new dest.
+                         */
+                        else if(this.route_down[i].get(0) < src){
+                            this.route_down[i].add(0, src);
+                            this.route_down[i].add(dest);
+                        }
+                        // add it after you finish this current call.
+                        else{
+                            this.route_down[i].add(src);
+                            this.route_down[i].add(dest);
+                        }
+                    }
+                    // the route is bigger the 1 -> add the new call to the end of the route.
+                    else{
+                        this.route_down[i].add(src);
+                        this.route_down[i].add(dest);
+                    }
+                    return i;
+                }
                 }
             }
 
