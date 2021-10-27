@@ -14,6 +14,7 @@ public class AlgoByZones implements ElevatorAlgo {
     private int numOfElevators;
     private boolean[] goingToZone;
     private Elevator[] elev;
+    private int []currDest;
 
 
     public AlgoByZones(Building b) {
@@ -25,11 +26,13 @@ public class AlgoByZones implements ElevatorAlgo {
         this.calls = new ArrayList[this.numOfElevators];
         this.goingToZone = new boolean[this.numOfElevators];
         this.elev = new Elevator[this.numOfElevators];
+        this.currDest = new int[numOfElevators];
         for(int i = 0 ; i <  this.numOfElevators; i++){
             this.route_down[i] = new ArrayList<Integer>();
             this.route_up[i] = new ArrayList<Integer>();
             this.calls[i] = new ArrayList<CallForElevator>();
             this.elev[i] = b.getElevetor(i);
+            this.currDest[i] = this.building.minFloor()-1;
         }
     }
 
@@ -239,8 +242,50 @@ public class AlgoByZones implements ElevatorAlgo {
         return 0;
     }
 
+    /**
+     * 1. if the elevator is on the way to the zone then pick up the call, if it is on the way to the call it means that
+     * it needs to be stopped at that floor and then go to the new direction.
+     *
+     * 2. stop at the call and then goes to the next destination according to the sort.
+     *
+     * 3.If it is in the zone and available great just take it.
+     *
+     * 4.Go according to where Netanel adds the call, he adds in 0 go to it otherwise go to the continue according to
+     * the same route
+     *
+     * 5.Enlarging zones does not affect the cmd.
+     *
+     * 6.The first to finish does not affect the cmd
+     *
+     * Best idea is to keep the route in place 0 and if it is different go to the other place stop or goto , no reason
+     * to change directions.
+     * @param elev the current Elevator index on which the operation is performs.
+     */
     @Override
     public void cmdElevator(int elev) {
-
+        Elevator el = building.getElevetor(elev);
+        int sizeDown = route_down[elev].size();
+        int sizeUp = route_up[elev].size();
+        if(zones.getZone(elev).isInZone(el.getPos()))
+        {
+            goingToZone[elev] = true;
+        }
+        if(goingToZone[elev]==false && el.getState()==Elevator.LEVEL)
+        {
+            el.goTo(zones.middleOfZone(elev));
+        }
+         if(sizeUp == 0 && sizeDown > 0 && el.getState()==Elevator.LEVEL) 
+         {
+             el.goTo(route_down[elev].get(0));
+             currDest[elev]=route_down[elev].get(0);
+             return;
+         }
+        if(sizeUp > 0 && sizeDown == 0 && el.getState()==Elevator.LEVEL)
+        {
+            el.goTo(route_up[elev].get(0));
+            currDest[elev]=route_down[elev].get(0);
+            return;
+        }
+        
     }
 }
