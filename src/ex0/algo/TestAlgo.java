@@ -79,6 +79,12 @@ public class TestAlgo implements ElevatorAlgo {
         }
     }
 
+    /**
+     * this one below netanel.
+     * @param i
+     * @param c
+     * @return
+     */
     public double numberOfFloors(int i, CallForElevator c) {
         double sum = 0;
         if (route[i].size() == 0) {

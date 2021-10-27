@@ -15,6 +15,8 @@ public class AlgoByZones implements ElevatorAlgo {
     private boolean[] goingToZone;
     private Elevator[] elev;
     private int[] currDest;
+    private int[] count;
+    private int [] upOrDown;
 
 
     public AlgoByZones(Building b) {
@@ -27,6 +29,8 @@ public class AlgoByZones implements ElevatorAlgo {
         this.goingToZone = new boolean[this.numOfElevators];
         this.elev = new Elevator[this.numOfElevators];
         this.currDest = new int[numOfElevators];
+        this.upOrDown = new int[numOfElevators];
+        this.count = new int[numOfElevators];
         for (int i = 0; i < this.numOfElevators; i++) {
             this.route_down[i] = new ArrayList<Integer>();
             this.route_up[i] = new ArrayList<Integer>();
@@ -455,8 +459,33 @@ public class AlgoByZones implements ElevatorAlgo {
         return -1;
     }
 
-    /**
-     * 1. if the elevator is on the way to the zone then pick up the call, if it is on the way to the call it means that
+    public int getHighest(int elev)
+    {
+        int max = Integer.MIN_VALUE;
+       for(int i=0;i<route_up[elev].size();i++)
+       {
+           if(max>route_up[elev].get(i))
+           {
+               max=route_up[elev].get(i);
+           }
+       }
+       return max;
+    }
+
+    public int getLowest(int elev)
+    {
+        int min = Integer.MAX_VALUE;
+        for(int i=0;i<route_down[elev].size();i++)
+        {
+            if(min>route_down[elev].get(i))
+            {
+                min=route_down[elev].get(i);
+            }
+        }
+        return min;
+    }
+/**
+ * 1. if the elevator is on the way to the zone then pick up the call, if it is on the way to the call it means that
      * it needs to be stopped at that floor and then go to the new direction.
      * <p>
      * 2. stop at the call and then goes to the next destination according to the sort.
@@ -473,9 +502,16 @@ public class AlgoByZones implements ElevatorAlgo {
      * Best idea is to keep the route in place 0 and if it is different go to the other place stop or goto , no reason
      * to change directions.
      *
-     * @param elev the current Elevator index on which the operation is performs.
-     */
-
+     * @param @elev the current Elevator index on which the operation is performs.
+     *
+     *
+ */
+    public void printDoneCalls(int i)
+    {
+        System.out.println("Elev number: "+i+",pos:"+ building.getElevetor(i).getPos() +", state:"+ building.getElevetor(i).getState() + ",currDest:" + currDest[i]+", upOrDown:"+upOrDown[i]);
+        System.out.println(route_up[i].toString());
+        System.out.println(route_down[i].toString());
+    }
     @Override
         public void cmdElevator(int elev) {
         int CurrDest=currDest[elev];
@@ -485,24 +521,115 @@ public class AlgoByZones implements ElevatorAlgo {
         int state = el.getState();
         int sizeDown = route_down[elev].size();
         int sizeUp = route_up[elev].size();
+//        printDoneCalls(elev);
+        if(sizeDown>0 && el.getPos()==route_down[elev].get(0) && el.getState()==Elevator.LEVEL)
+        {
+            route_down[elev].remove(0);
+        }
+        if(sizeUp>0 && el.getPos()==route_up[elev].get(0) && el.getState()==Elevator.LEVEL)
+        {
+            route_up[elev].remove(0);
+        }
+        sizeDown = route_down[elev].size();
+        sizeUp = route_up[elev].size();
         if(zones.getZone(elev).isInZone(el.getPos()))
         {
             goingToZone[elev] = true;
         }
         if(goingToZone[elev]==false && el.getState()==Elevator.LEVEL)
         {
+            if(zones.middleOfZone(elev)>el.getPos())
+            {
+                upOrDown[elev]=1;
+                //route_up[elev].add(currDest[elev]=zones.middleOfZone(elev));
+            }
+            if(zones.middleOfZone(elev)<el.getPos())
+            {
+                //route_down[elev].add(currDest[elev]=zones.middleOfZone(elev));
+                upOrDown[elev]=-1;
+            }
             el.goTo(zones.middleOfZone(elev));
-        }
-         if(sizeUp == 0 && sizeDown > 0 && el.getState()==Elevator.LEVEL)
-         {
+            currDest[elev]=zones.middleOfZone(elev);
+            return;
+            }
+         if(sizeUp == 0 && sizeDown > 0 && el.getState()==Elevator.LEVEL) {
+             upOrDown[elev]=-1;
              el.goTo(route_down[elev].get(0));
              currDest[elev]=route_down[elev].get(0);
              return;
          }
-        if(sizeUp > 0 && sizeDown == 0 && el.getState()==Elevator.LEVEL)
+        if(sizeUp > 0 && sizeDown == 0 && el.getState()==Elevator.LEVEL) {
+            upOrDown[elev]=1;
+            el.goTo(route_up[elev].get(0));
+            currDest[elev] = route_up[elev].get(0);
+            return;
+        }
+        if(sizeUp>0 && upOrDown[elev]==1 && currDest[elev]!=route_up[elev].get(0) && el.getPos()<route_up[elev].get(0)&& el.getState()!=Elevator.LEVEL)
+        {
+            el.stop(route_up[elev].get(0));
+            currDest[elev]=route_up[elev].get(0);
+            return;
+        }
+        if(sizeDown>0 && upOrDown[elev]==-1 && currDest[elev]!=route_down[elev].get(0) && el.getPos()>route_down[elev].get(0) && el.getState()!=Elevator.LEVEL )
+        {
+            el.stop(route_down[elev].get(0));
+            currDest[elev]=route_down[elev].get(0);
+            return;
+        }
+        if(sizeUp>0 && upOrDown[elev]==1 && currDest[elev]!=route_up[elev].get(0) && el.getPos()<route_up[elev].get(0)&& el.getState()==Elevator.LEVEL)
         {
             el.goTo(route_up[elev].get(0));
+            currDest[elev]=route_up[elev].get(0);
+            return;
+        }
+        if(sizeDown>0 && upOrDown[elev]==-1 && currDest[elev]!=route_down[elev].get(0) && el.getPos()>route_down[elev].get(0) && el.getState()==Elevator.LEVEL )
+        {
+            el.goTo(route_down[elev].get(0));
             currDest[elev]=route_down[elev].get(0);
+            return;
+        }
+        if(el.getPos()==getHighest(elev) && sizeDown>0 && el.getState()==Elevator.LEVEL)
+        {
+           el.goTo(route_down[elev].get(0));
+           upOrDown[elev]=-1;
+           currDest[elev]=route_down[elev].get(0);
+           return;
+        }
+        if(el.getPos()==getLowest(elev) && sizeUp>0&& el.getState()==Elevator.LEVEL)
+        {
+            el.goTo(route_up[elev].get(0));
+            upOrDown[elev]=1;
+            currDest[elev]=route_up[elev].get(0);
+            return;
+        }
+        if(el.getPos()==getHighest(elev)&&sizeDown==0 && sizeUp>0&& el.getState()==Elevator.LEVEL)
+        {
+            el.goTo(route_up[elev].get(0));
+            currDest[elev]=route_up[elev].get(0);
+            upOrDown[elev]=1;
+            return;
+        }
+        if(el.getPos()==getLowest(elev)&&sizeUp==0 && sizeDown>0&& el.getState()==Elevator.LEVEL)
+        {
+            el.goTo(route_down[elev].get(0));
+            currDest[elev]=route_down[elev].get(0);
+            upOrDown[elev]=-1;
+            return;
+        }
+        if(el.getState()==Elevator.LEVEL && sizeUp==0 && sizeDown==0&& el.getState()==Elevator.LEVEL)
+        {
+            if(zones.middleOfZone(elev)>el.getPos())
+            {
+                //route_up[elev].add(currDest[elev]=zones.middleOfZone(elev));
+                upOrDown[elev]=1;
+            }
+            if(zones.middleOfZone(elev)<el.getPos())
+            {
+                //route_down[elev].add(currDest[elev]=zones.middleOfZone(elev));
+                upOrDown[elev]=-1;
+            }
+            el.goTo(zones.middleOfZone(elev));
+            currDest[elev]=zones.middleOfZone(elev);
             return;
         }
     }
