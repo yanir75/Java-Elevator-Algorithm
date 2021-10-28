@@ -47,6 +47,10 @@ public class TestAlgo implements ElevatorAlgo {
             if (min > numberOfFloors(i, c)) {
                 min = numberOfFloors(i, c);
                 ind = i;
+                if(numberOfFloors(i,c)==-2)
+                {
+                    return ind;
+                }
             }
         }
         route[ind].add(c.getSrc());
@@ -93,6 +97,7 @@ public class TestAlgo implements ElevatorAlgo {
     public double numberOfFloors(int i, CallForElevator c) {
         if(containsA(c,i))
             return -2;
+
         double sum = 0;
         Elevator thisElev = b.getElevetor(i);
         double floorTime = thisElev.getTimeForOpen() + thisElev.getTimeForClose();
