@@ -5,7 +5,6 @@ import ex0.CallForElevator;
 import ex0.Elevator;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 
 public class TestAlgo2 implements ElevatorAlgo {
@@ -78,7 +77,7 @@ public class TestAlgo2 implements ElevatorAlgo {
         return ind;
     }
 
-    public boolean containsA(CallForElevator c ,int ind)
+    public boolean contains(CallForElevator c , int ind)
     { int src=-1;
         for(int i=0;i<route[ind].size();i++) {
             if (c.getSrc() == route[ind].get(i))
@@ -116,7 +115,7 @@ public class TestAlgo2 implements ElevatorAlgo {
     }
 
     public double numberOfFloors(int i, CallForElevator c) {
-        if(containsA(c,i)) {return -2;}
+        if(contains(c,i)) {return -2;}
 //        if(containsB(c, i)){ return -1;}
         double sum = 0;
         Elevator thisElev = building.getElevetor(i);
