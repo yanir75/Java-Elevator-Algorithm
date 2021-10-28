@@ -87,6 +87,7 @@ public class TestAlgo2 implements ElevatorAlgo {
                 break;
             }
         }
+        //5
         if(src==-1)
             return false;
         for(int i=src;i<route[ind].size();i++) {

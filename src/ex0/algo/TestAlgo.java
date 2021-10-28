@@ -91,7 +91,10 @@ public class TestAlgo implements ElevatorAlgo {
         }
         return false;
     }
+    public boolean containsB(CallForElevator c, int ind) {
 
+        return false;
+    }
 
     public double numberOfFloors(int i, CallForElevator c) {
         if (containsA(c, i)) {
