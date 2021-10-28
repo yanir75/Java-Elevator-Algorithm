@@ -113,21 +113,21 @@ public class TestAlgo implements ElevatorAlgo {
         int dest = c.getDest();
         double sum = 0;
         Elevator thisElev = this.building.getElevetor(ind);
-        double floorTime = thisElev.getTimeForOpen() + thisElev.getTimeForClose();
-        double speed = thisElev.getSpeed();
         int thisElevSize = this.route[ind].size();
         int thisElevPos = this.building.getElevetor(ind).getPos();
+        double floorTime = thisElev.getTimeForOpen() + thisElev.getTimeForClose();
+        double speed = thisElev.getSpeed();
         if (thisElevSize == 0) {
-            return (dist(dest, src) + dist(src, thisElevPos)) / (building.getElevetor(ind).getSpeed());
+            return (dist(dest, src) + dist(src, thisElevPos)) / (speed);
         }
-        sum += Math.abs(route[ind].get(0) - thisElevPos);
+        sum += dist(route[ind].get(0), thisElevPos);
         for (int j = 1; j < thisElevSize; j++) {
-            sum += Math.abs(route[ind].get(j) - route[ind].get(j - 1));
+            sum += dist(route[ind].get(j), route[ind].get(j - 1));
         }
-        sum += dist(dest, src) + Math.abs(src - route[ind].get(thisElevSize - 1));
+        sum += dist(dest, src) + dist(src, route[ind].get(thisElevSize - 1));
         // I don't know why the *10 is here but with it ,it works better.So it is here to stay
         sum = (sum / speed) * 10;//+ (thisElevSize * floorTime);
-//        sum=sum/building.getElevetor(ind).getSpeed()*10+thisElevSize*(building.getElevetor(ind).getTimeForOpen()+building.getElevetor(ind).getTimeForClose());
+//        sum=sum/building.getElevator(ind).getSpeed()*10+thisElevSize*(building.getElevetor(ind).getTimeForOpen()+building.getElevetor(ind).getTimeForClose());
         return sum;
     }
 
