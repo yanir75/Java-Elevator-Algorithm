@@ -11,7 +11,7 @@ import ex0.simulator.Simulator_A;
 public class Ex0_main {
     public static Long ID0=123456789L, ID1 = null, ID2 = null;
     public static void main(String[] ar) {
-        for(int stage=7;stage<10;stage++)
+        for(int stage=0;stage<10;stage++)
         {
 //        int stage=-3331;
 //        int stage=-3332;
