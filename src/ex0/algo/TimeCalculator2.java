@@ -65,7 +65,7 @@ public class TimeCalculator2 {
         double minSource = Double.MAX_VALUE;
         int indOfSource=-1;
         double time=0;
-        for(int i=0;i<route.size();i++)
+        for(int i=1;i<route.size();i++)
         {
             route.add(i,c.getSrc());
             double timeAfterAdd=calculateRouteTime();
@@ -78,7 +78,12 @@ public class TimeCalculator2 {
             route.remove(i);
         }
         double minDest = Double.MAX_VALUE;
+        if(indOfSource!=-1)
         route.add(indOfSource,c.getSrc());
+        else
+        {        route.add(c.getSrc());
+                 indOfSource=route.size()-1;
+    }
         double timeBeforeDest=calculateRouteTime();
         int indOfDest = -1;
         if(indOfSource+1==route.size())

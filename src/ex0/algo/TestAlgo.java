@@ -3,21 +3,26 @@ package ex0.algo;
 import ex0.Building;
 import ex0.CallForElevator;
 import ex0.Elevator;
-
 import java.util.ArrayList;
 
 public class TestAlgo implements ElevatorAlgo {
     private Building b;
     private ArrayList<Integer>[] route;
     private ArrayList<CallForElevator>[] calls;
+    private int FastElev;
 
     public TestAlgo(Building b) {
         this.b = b;
         route = new ArrayList[b.numberOfElevetors()];
         calls = new ArrayList[b.numberOfElevetors()];
+        FastElev=0;
         for (int i = 0; i < b.numberOfElevetors(); i++) {
             route[i] = new ArrayList<Integer>();
             calls[i] = new ArrayList<CallForElevator>();
+            if(b.getElevetor(i).getSpeed()>b.getElevetor(FastElev).getSpeed())
+            {
+                FastElev=i;
+            }
         }
     }
 
@@ -33,12 +38,11 @@ public class TestAlgo implements ElevatorAlgo {
 
     @Override
     public int allocateAnElevator(CallForElevator c) {
-
-        double min = Integer.MAX_VALUE;
-        int ind = 0;
+        // seperate the cases which has 1 elevator.
         if (b.numberOfElevetors() == 1)
             return allocateAnElevator(c, true);
-
+        double min = Integer.MAX_VALUE;
+        int ind = 0;
         for (int i = 0; i < b.numberOfElevetors(); i++) {
             if (min > numberOfFloors(i, c)) {
                 min = numberOfFloors(i, c);
@@ -67,71 +71,52 @@ public class TestAlgo implements ElevatorAlgo {
         calls[0].add(c);
         return 0;
     }
-
-    public void removeDuplicateFloors(ArrayList<Integer> route){
-        if(route.size() > 1) {
-            for (int i = 1; i < route.size(); i++) {
-                if(route.get(i-1) == route.get(i)){
-                    route.remove(i);
-                    i--;
-                }
+    public boolean containsA(CallForElevator c ,int ind)
+    { int src=-1;
+        for(int i=0;i<route[ind].size();i++) {
+            if (c.getSrc() == route[ind].get(i))
+            {
+                src=i;
+                break;
             }
         }
+        if(src==-1)
+            return false;
+        for(int i=src;i<route[ind].size();i++) {
+            if (c.getDest() == route[ind].get(i))
+            {
+                return true;
+            }
+        }
+        return false;
     }
-
-    /**
-     * this one below netanel.
-     * @param i
-     * @param c
-     * @return
-     */
     public double numberOfFloors(int i, CallForElevator c) {
+        if(containsA(c,i))
+            return -2;
         double sum = 0;
+        Elevator thisElev = b.getElevetor(i);
+        double floorTime = thisElev.getTimeForOpen() + thisElev.getTimeForClose();
         if (route[i].size() == 0) {
-            return (Math.abs(c.getDest() - c.getSrc()) + Math.abs(c.getSrc() - b.getElevetor(i).getPos())) / b.getElevetor(i).getSpeed();
+            return (Math.abs(c.getDest() - c.getSrc()) + Math.abs(c.getSrc() - b.getElevetor(i).getPos())) / (b.getElevetor(i).getSpeed());
         }
         sum += Math.abs(route[i].get(0) - b.getElevetor(i).getPos());
         for (int j = 1; j < route[i].size(); j++) {
             sum += Math.abs(route[i].get(j) - route[i].get(j - 1));
         }
-        Elevator thisElev = b.getElevetor(i);
         double speed = thisElev.getSpeed();
-        double floorTime = thisElev.getTimeForOpen() + thisElev.getTimeForClose();
         sum += Math.abs(c.getDest() - c.getSrc()) + Math.abs(c.getSrc() - route[i].get(route[i].size() - 1));
         // I don't know why the *10 is here but with it ,it works better.So it is here to stay
-        sum = (sum / speed) *10 + (route[i].size() * floorTime);
+        sum = (sum / speed) * 10 ;//+ (route[i].size() * floorTime);
 //        sum=sum/b.getElevetor(i).getSpeed()*10+route[i].size()*(b.getElevetor(i).getTimeForOpen()+b.getElevetor(i).getTimeForClose());
         return sum;
     }
         @Override
         public void cmdElevator ( int elev){
-//         removeDuplicateFloors(route[elev]);
                 if (Elevator.LEVEL == b.getElevetor(elev).getState() && route[elev].size() > 0) {
-                    if (b.getElevetor(elev).getPos() == route[elev].get(0))
+                    if (b.getElevetor(elev).getPos() == route[elev].get(0) && b.getElevetor(elev).getState() == Elevator.LEVEL)
                         route[elev].remove(0);
                     if (route[elev].size() > 0)
                         b.getElevetor(elev).goTo(route[elev].get(0));
-
                 }
-
-
-
-//           if(numOfFloorElev>0 && elev<numOfFloorElev)
-//           {
-//               if (Elevator.LEVEL == b.getElevetor(elev).getState() && route[elev].size()==0)
-//               {
-//                   b.getElevetor(elev).goTo(0);
-//               }
-//           }
-//            if(numOfFloorElev>0 && elev<numOfFloorElev)
-//            {
-//                if (Elevator.LEVEL != b.getElevetor(elev).getState() && route[elev].size()>0)
-//                {
-//                    b.getElevetor(elev).stop(b.getElevetor(elev).getPos()-1);
-//                    b.getElevetor(elev).stop(b.getElevetor(elev).getPos()+1);
-//                    b.getElevetor(elev).goTo(route[elev].get(0));
-//                }
-//            }
         }
     }
-
