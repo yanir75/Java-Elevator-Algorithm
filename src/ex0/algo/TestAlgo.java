@@ -10,7 +10,7 @@ public class TestAlgo implements ElevatorAlgo {
     private Building building;
     private ArrayList<Integer>[] route;
     private ArrayList<CallForElevator>[] calls;
-    private int[] coun;
+    private int[] count;
 
     public TestAlgo(Building b) {
         this.building = b;
