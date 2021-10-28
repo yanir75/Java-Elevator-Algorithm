@@ -17,9 +17,9 @@ public interface Elevator {
     public double getTimeForOpen();
     /** Returns the time (in seconds it takes the Elevator to close its doors */
     public double getTimeForClose();
-    /** Returns the Elavator's current state: {UP, DOWN, LEVEL, ERROR} the state "LEVEL" mark that the elevator has reached the floor -
+    /** Returns the Elavator's current state: {this.up, this.down, LEVEL, ERROR} the state "LEVEL" mark that the elevator has reached the floor -
      * and is now ready to load / unload and get new orders. */
-    public int getState(); // UP, DOWN, LEVEL, ERROR
+    public int getState(); // this.up, this.down, LEVEL, ERROR
     /** Returns the Elevator's current position (floor) as an Integer. */
     public int getPos();
     /** Moves the elevator form the current position to the destination floor. */

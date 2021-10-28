@@ -13,8 +13,6 @@ public class Ex0_main {
     public static void main(String[] ar) {
         for(int stage=0;stage<10;stage++)
         {
-//        int stage=-3331;
-//        int stage=-3332;
         String codeOwner = codeOwner();
         Simulator_A.setCodeOwner(codeOwner);
         //int stage = 2;  // any case in [0,9].

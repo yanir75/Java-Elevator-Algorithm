@@ -16,7 +16,7 @@ public interface CallForElevator {
     public int getSrc();
     /** @return the destenation floor to which this elevator call is targeted to. */
     public int getDest();
-    /** @return the type of this call {UP,DOWN}; */
+    /** @return the type of this call {this.up,this.down}; */
     public int getType();
     /** This methods return the index of the Elevator in the building to which this call was assigned to, if not yet Assigned --> return -1 */
     public int allocatedTo() ;
