@@ -63,7 +63,7 @@ public class TestAlgo implements ElevatorAlgo {
             route[0].add(c.getDest());
         }
         boolean f = true;
-        for (int i = 0; i < route[0].size() - 1; i++) {
+        for (int i = 0; i < route[0].size() -1; i++) {
             if (route[0].get(i) < c.getSrc() && c.getDest() < route[0].get(i + 1) && c.getDest() > c.getSrc()) {
                 f = false;
                 route[0].add(i + 1, c.getSrc());
@@ -92,28 +92,10 @@ public class TestAlgo implements ElevatorAlgo {
         return false;
     }
 
-//    public boolean containsB(CallForElevator c ,int ind){
-//
-//        int thisElevInd = this.route[ind].size();
-//        for(int i=0;i<route[ind].size();i++) {
-//            if (c.getSrc() == route[ind].get(i)){
-//                for (int j=0;j<b.numberOfElevetors();j++)
-//                {
-//                    if(thisElevInd < this.route[j].size()){
-//                        return false;
-//                    }
-//                }
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
-
     public double numberOfFloors(int i, CallForElevator c) {
         if (containsA(c, i)) {
             return -2;
         }
-//        if(containsB(c, i)){ return -1;}
 
         double sum = 0;
         Elevator thisElev = building.getElevetor(i);
@@ -128,7 +110,7 @@ public class TestAlgo implements ElevatorAlgo {
         double speed = thisElev.getSpeed();
         sum += Math.abs(c.getDest() - c.getSrc()) + Math.abs(c.getSrc() - route[i].get(route[i].size() - 1));
         // I don't know why the *10 is here but with it ,it works better.So it is here to stay
-        sum = (sum / speed) * 10 + (route[i].size() * floorTime);
+        sum = sum / speed * 10 + (route[i].size() * floorTime);
 //        sum=sum/b.getElevetor(i).getSpeed()*10+route[i].size()*(b.getElevetor(i).getTimeForOpen()+b.getElevetor(i).getTimeForClose());
         return sum;
     }
