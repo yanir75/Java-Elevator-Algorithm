@@ -55,10 +55,11 @@ public class TimeCalculator2 {
         return t;
     }
     public double[] addedTimeToRoute(CallForElevator c) {
+        int src = c.getSrc();
         if(route.size()==0)
         {
-            double timeToAdd=sourceToDest(el.getPos(),c.getSrc());
-            timeToAdd+=sourceToDest(c.getSrc(),c.getDest());
+            double timeToAdd=sourceToDest(el.getPos(),src);
+            timeToAdd+=sourceToDest(src,c.getDest());
             return new double[]{0, 1, timeToAdd};
         }
         double timeBeforeAdd=calculateRouteTime();
@@ -67,7 +68,7 @@ public class TimeCalculator2 {
         double time=0;
         for(int i=1;i<route.size();i++)
         {
-            route.add(i,c.getSrc());
+            route.add(i,src);
             double timeAfterAdd=calculateRouteTime();
             time=timeAfterAdd-timeBeforeAdd;
             if(minSource >time)
@@ -79,9 +80,9 @@ public class TimeCalculator2 {
         }
         double minDest = Double.MAX_VALUE;
         if(indOfSource!=-1)
-        route.add(indOfSource,c.getSrc());
+        route.add(indOfSource,src);
         else
-        {        route.add(c.getSrc());
+        {        route.add(src);
                  indOfSource=route.size()-1;
     }
         double timeBeforeDest=calculateRouteTime();
@@ -112,14 +113,15 @@ public class TimeCalculator2 {
         return new double[]{indOfSource,indOfDest,totalTime+time};
     }
     public void addToRoute(CallForElevator c,int i,int j) {
+        int src = c.getSrc();
         this.cleanDoneCalls();
         boolean f=false;
         if((el.getState()==Elevator.LEVEL && i==0) ||route.size()==0 && el.getState()==Elevator.LEVEL)
         {
-            el.goTo(c.getSrc());
-            currDest=c.getSrc();
+            el.goTo(src);
+            currDest=src;
         }
-        else if(((el.getPos()>=c.getSrc() && c.getSrc()>=currDest )|| (c.getSrc()>= el.getPos() && c.getSrc()<=currDest))&& i==0 && el.getState()!=Elevator.LEVEL)
+        else if(((el.getPos()>=src && src>=currDest )|| (c.getSrc()>= el.getPos() && c.getSrc()<=currDest))&& i==0 && el.getState()!=Elevator.LEVEL)
         {   route.add(0,currDest);
             stop=true;
             floor=c.getSrc();

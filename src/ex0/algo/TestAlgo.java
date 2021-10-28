@@ -10,43 +10,40 @@ public class TestAlgo implements ElevatorAlgo {
     private Building building;
     private ArrayList<Integer>[] route;
     private ArrayList<CallForElevator>[] calls;
-    private int[] coun;
+    private int FastElev;
 
     public TestAlgo(Building b) {
         this.building = b;
         route = new ArrayList[b.numberOfElevetors()];
         calls = new ArrayList[b.numberOfElevetors()];
-        count = new int[b.numberOfElevetors()];
+        FastElev = 0;
         for (int i = 0; i < b.numberOfElevetors(); i++) {
             route[i] = new ArrayList<Integer>();
             calls[i] = new ArrayList<CallForElevator>();
+            if (b.getElevetor(i).getSpeed() > b.getElevetor(FastElev).getSpeed()) {
+                FastElev = i;
+            }
         }
     }
 
     @Override
-    public Building getBuilding() {
-        return building;
-    }
+    public Building getBuilding() {return building;}
 
     @Override
-    public String algoName() {
-        return "TestAlgo";
-    }
+    public String algoName() {return "TestAlgo";}
 
     @Override
     public int allocateAnElevator(CallForElevator c) {
-        // seperate the cases which has 1 elevator.
-        double speed = Double.MAX_VALUE;
-        if (building.numberOfElevetors() == 1)
-            return allocateAnElevator(c, true);
+        // Different approach for a building with a single elevator.
+        if (building.numberOfElevetors() == 1){return allocateAnElevator(c, true);}
         double min = Integer.MAX_VALUE;
         int ind = 0;
         for (int i = 0; i < building.numberOfElevetors(); i++) {
-            if (min > numberOfFloors(i, c)) {
-                min = numberOfFloors(i, c);
+            double numberOfFloorsInRoute = numberOfFloors(i, c);
+            if (min > numberOfFloorsInRoute) {
+                min = numberOfFloorsInRoute;
                 ind = i;
-                if (min == -2) {
-                    calls[ind].add(c);
+                if (numberOfFloorsInRoute == -2) {
                     return ind;
                 }
             }
@@ -57,26 +54,35 @@ public class TestAlgo implements ElevatorAlgo {
         return ind;
     }
 
+    // Different approach for a building with a single elevator.
     private int allocateAnElevator(CallForElevator c, boolean b) {
+        int src = c.getSrc();
+        int dest = c.getDest();
         if (route[0].size() == 0) {
-            route[0].add(c.getSrc());
-            route[0].add(c.getDest());
+            route[0].add(src);
+            route[0].add(dest);
         }
-        boolean f = true;
+        boolean flag = true;
         for (int i = 0; i < route[0].size() - 1; i++) {
-            if (route[0].get(i) < c.getSrc() && c.getDest() < route[0].get(i + 1) && c.getDest() > c.getSrc()) {
-                f = false;
-                route[0].add(i + 1, c.getSrc());
-                route[0].add(i + 2, c.getDest());
+            if (route[0].get(i) < src && dest < route[0].get(i + 1) && dest > src) {
+                flag = false;
+                route[0].add(i + 1, src);
+                route[0].add(i + 2, dest);
             }
         }
         calls[0].add(c);
         return 0;
     }
 
+    /**
+     * @param c call
+     * @param ind index of the elevator
+     * @return True if this elevator has already the exact source
+     * and destination in it's path, otherwise False.
+     */
     public boolean containsA(CallForElevator c, int ind) {
         int src = -1;
-        for (int i = 0; i < route[ind].size(); i++) {
+        for (int i = 0; i < this.route[ind].size(); i++) {
             if (c.getSrc() == route[ind].get(i)) {
                 src = i;
                 break;
@@ -84,7 +90,7 @@ public class TestAlgo implements ElevatorAlgo {
         }
         if (src == -1)
             return false;
-        for (int i = src; i < route[ind].size(); i++) {
+        for (int i = src; i < this.route[ind].size(); i++) {
             if (c.getDest() == route[ind].get(i)) {
                 return true;
             }
@@ -92,44 +98,36 @@ public class TestAlgo implements ElevatorAlgo {
         return false;
     }
 
-//    public boolean containsB(CallForElevator c ,int ind){
-//
-//        int thisElevInd = this.route[ind].size();
-//        for(int i=0;i<route[ind].size();i++) {
-//            if (c.getSrc() == route[ind].get(i)){
-//                for (int j=0;j<b.numberOfElevetors();j++)
-//                {
-//                    if(thisElevInd < this.route[j].size()){
-//                        return false;
-//                    }
-//                }
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
 
-    public double numberOfFloors(int i, CallForElevator c) {
-        if (containsA(c, i)) {
-            return -2;
-        }
-//        if(containsB(c, i)){ return -1;}
+    public int dist(int a, int b){return Math.abs(a - b);}
 
+
+    /**
+     * @param ind
+     * @param c
+     * @return
+     */
+    public double numberOfFloors(int ind, CallForElevator c) {
+        if (containsA(c, ind)){return -2;}
+        int src = c.getSrc();
+        int dest = c.getDest();
         double sum = 0;
-        Elevator thisElev = building.getElevetor(i);
+        Elevator thisElev = this.building.getElevetor(ind);
         double floorTime = thisElev.getTimeForOpen() + thisElev.getTimeForClose();
-        if (route[i].size() == 0) {
-            return (Math.abs(c.getDest() - c.getSrc()) + Math.abs(c.getSrc() - building.getElevetor(i).getPos())) / (building.getElevetor(i).getSpeed());
-        }
-        sum += Math.abs(route[i].get(0) - building.getElevetor(i).getPos());
-        for (int j = 1; j < route[i].size(); j++) {
-            sum += Math.abs(route[i].get(j) - route[i].get(j - 1));
-        }
         double speed = thisElev.getSpeed();
-        sum += Math.abs(c.getDest() - c.getSrc()) + Math.abs(c.getSrc() - route[i].get(route[i].size() - 1));
+        int thisElevSize = this.route[ind].size();
+        int thisElevPos = this.building.getElevetor(ind).getPos();
+        if (thisElevSize == 0) {
+            return (dist(dest, src) + dist(src, thisElevPos)) / (building.getElevetor(ind).getSpeed());
+        }
+        sum += Math.abs(route[ind].get(0) - thisElevPos);
+        for (int j = 1; j < thisElevSize; j++) {
+            sum += Math.abs(route[ind].get(j) - route[ind].get(j - 1));
+        }
+        sum += dist(dest, src) + Math.abs(src - route[ind].get(thisElevSize - 1));
         // I don't know why the *10 is here but with it ,it works better.So it is here to stay
-        sum = (sum / speed) * 10 + (route[i].size() * floorTime);
-//        sum=sum/b.getElevetor(i).getSpeed()*10+route[i].size()*(b.getElevetor(i).getTimeForOpen()+b.getElevetor(i).getTimeForClose());
+        sum = (sum / speed) * 10;//+ (thisElevSize * floorTime);
+//        sum=sum/building.getElevetor(ind).getSpeed()*10+thisElevSize*(building.getElevetor(ind).getTimeForOpen()+building.getElevetor(ind).getTimeForClose());
         return sum;
     }
 
