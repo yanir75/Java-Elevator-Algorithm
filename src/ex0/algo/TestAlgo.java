@@ -9,20 +9,16 @@ public class TestAlgo implements ElevatorAlgo {
     private Building b;
     private ArrayList<Integer>[] route;
     private ArrayList<CallForElevator>[] calls;
-    private int FastElev;
+    private int[] count;
 
     public TestAlgo(Building b) {
         this.b = b;
         route = new ArrayList[b.numberOfElevetors()];
         calls = new ArrayList[b.numberOfElevetors()];
-        FastElev=0;
+        count = new int[b.numberOfElevetors()];
         for (int i = 0; i < b.numberOfElevetors(); i++) {
             route[i] = new ArrayList<Integer>();
             calls[i] = new ArrayList<CallForElevator>();
-            if(b.getElevetor(i).getSpeed()>b.getElevetor(FastElev).getSpeed())
-            {
-                FastElev=i;
-            }
         }
     }
 
@@ -39,7 +35,8 @@ public class TestAlgo implements ElevatorAlgo {
     @Override
     public int allocateAnElevator(CallForElevator c) {
         // seperate the cases which has 1 elevator.
-        if (b.numberOfElevetors() == 1)
+        double speed = Double.MAX_VALUE;
+        if (building.numberOfElevetors() == 1)
             return allocateAnElevator(c, true);
         double min = Integer.MAX_VALUE;
         int ind = 0;
@@ -47,8 +44,8 @@ public class TestAlgo implements ElevatorAlgo {
             if (min > numberOfFloors(i, c)) {
                 min = numberOfFloors(i, c);
                 ind = i;
-                if(numberOfFloors(i,c)==-2)
-                {
+                if (min == -2) {
+                    calls[ind].add(c);
                     return ind;
                 }
             }
@@ -111,17 +108,18 @@ public class TestAlgo implements ElevatorAlgo {
         double speed = thisElev.getSpeed();
         sum += Math.abs(c.getDest() - c.getSrc()) + Math.abs(c.getSrc() - route[i].get(route[i].size() - 1));
         // I don't know why the *10 is here but with it ,it works better.So it is here to stay
-        sum = (sum / speed) * 10 ;//+ (route[i].size() * floorTime);
+        sum = (sum / speed) * 10 + (route[i].size() * floorTime);
 //        sum=sum/b.getElevetor(i).getSpeed()*10+route[i].size()*(b.getElevetor(i).getTimeForOpen()+b.getElevetor(i).getTimeForClose());
         return sum;
     }
-        @Override
-        public void cmdElevator ( int elev){
-                if (Elevator.LEVEL == b.getElevetor(elev).getState() && route[elev].size() > 0) {
-                    if (b.getElevetor(elev).getPos() == route[elev].get(0) && b.getElevetor(elev).getState() == Elevator.LEVEL)
-                        route[elev].remove(0);
-                    if (route[elev].size() > 0)
-                        b.getElevetor(elev).goTo(route[elev].get(0));
-                }
+
+    @Override
+    public void cmdElevator(int elev) {
+        if (Elevator.LEVEL == building.getElevetor(elev).getState() && route[elev].size() > 0) {
+            if (building.getElevetor(elev).getPos() == route[elev].get(0) && building.getElevetor(elev).getState() == Elevator.LEVEL)
+                route[elev].remove(0);
+            if (route[elev].size() > 0)
+                building.getElevetor(elev).goTo(route[elev].get(0));
         }
     }
+}
