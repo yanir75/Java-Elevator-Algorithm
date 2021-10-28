@@ -3,6 +3,7 @@ package ex0.algo;
 import ex0.Building;
 import ex0.CallForElevator;
 import ex0.simulator.Simulator_A;
+import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 class TestAlgoTest {
@@ -84,7 +85,6 @@ class TestAlgoTest {
 
     @Test
     void contains() {
-
     }
 
     @Test
