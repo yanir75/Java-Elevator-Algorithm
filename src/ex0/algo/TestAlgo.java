@@ -91,6 +91,7 @@ public class TestAlgo implements ElevatorAlgo {
         }
         return false;
     }
+
     public boolean containsB(CallForElevator c, int ind) {
 
         return false;
