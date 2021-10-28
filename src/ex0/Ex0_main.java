@@ -11,7 +11,7 @@ import ex0.simulator.Simulator_A;
 public class Ex0_main {
     public static Long ID0=123456789L, ID1 = null, ID2 = null;
     public static void main(String[] ar) {
-        for(int stage=2;stage<10;stage++)
+        for(int stage=7;stage<10;stage++)
         {
 //        int stage=-3331;
 //        int stage=-3332;
@@ -24,7 +24,7 @@ public class Ex0_main {
         Simulator_A.initData(stage, callFile);  // init the simulator data: {building, calls}.
         // ElevatorAlgo ex0_alg = new ShabatElevAlgo(Simulator_A.getBuilding());  // The simplest algo ever (Shabat Elev).
         // ElevatorAlgo ex0_alg = new ShabatElev3Algo(Simulator_A.getBuilding()); // Shabat Elev with a minor twist
-       ElevatorAlgo ex0_alg = new TestAlgo2(Simulator_A.getBuilding());    // Shabat Elev with two trick - replace with your code;
+       ElevatorAlgo ex0_alg = new TestAlgo(Simulator_A.getBuilding());    // Shabat Elev with two trick - replace with your code;
         Simulator_A.initAlgo(ex0_alg); // init the algorithm to be used by the simulator
 
         Simulator_A.runSim(); // run the simulation - should NOT take more than few seconds.
