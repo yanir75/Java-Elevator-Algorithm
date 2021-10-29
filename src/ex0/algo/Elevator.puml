@@ -1,0 +1,72 @@
+@startuml
+'https://plantuml.com/class-diagram
+interface Building
+{
+    + String getBuildingName();
+    + int minFloor();
+    + int maxFloor();
+    + int numberOfElevetors();
+    + Elevator getElevetor(int i);
+}
+interface Elevator
+{
+ + static final int UP = 1, LEVEL = 0, DOWN = -1, ERROR = -2;
+    + int getMinFloor();
+    + int getMaxFloor();
+    + double getTimeForOpen();
+    + double getTimeForClose();
+    + int getState(); // UP, DOWN, LEVEL, ERROR
+    + int getPos();
+    + boolean goTo(int floor);
+    + boolean stop(int floor);
+    + double getSpeed();
+    + double getStartTime();
+    + double getStopTime();
+    + int getID();
+}
+interface CallForElevator{
++ static final int INIT=0, GOING2SRC=1, GOIND2DEST=2, DONE=3;
+    + static final int UP=1, DOWN=-1;
+    + int getState();
+    + double getTime(int state);
+    + int getSrc();
+    + int getDest();
+    + int getType();
+    + int allocatedTo() ;
+}
+interface ElevatorAlgo
+{
+
++ Building getBuilding()
++ String algoName()
++ int allocateAnElevator(CallForElevator c)
++ void cmdElevator(int elev)
+}
+
+class MyAlgo {
+-Building building
++final ArrayList<Integer>[] route
+-final ArrayList<CallForElevator>[]calls
+-final ArrayList<Integer> up
+-final ArrayList<Integer> down
+-final int [] count
+-boolean start
+-boolean goUp
+-boolean goDown
+-int flag
++ Building getBuilding()
++ String algoName()
++ int allocateAnElevator(CallForElevator c)
++ void cmdElevator(int elev)
++ boolean contains(CallForElevator c,int ind)
+- int allocateAnElevator(CallForElevator c,boolean b) // allocating in case of one elevator
++ double numberOfFloors(int i,CallForElevator c)
+    }
+ElevatorAlgo <|-- Building
+ElevatorAlgo <|-- CallForElevator
+ElevatorAlgo <|-- Elevator
+MyAlgo <|-- ElevatorAlgo
+Building <|-- Elevator
+Elevator <-> CallForElevator
+
+@endum

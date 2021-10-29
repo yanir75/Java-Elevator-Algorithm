@@ -6,21 +6,21 @@ import ex0.simulator.Simulator_A;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
-class TestAlgo2Test {
+class MyAlgoTest {
     Building b1;
     Building b2;
     Building b3;
     Building b0;
-    TestAlgo2 algo1;
-    TestAlgo2 algo2;
-    TestAlgo2 algo3;
-    TestAlgo2 algo4;
-    TestAlgo2 algo5;
+    MyAlgo algo1;
+    MyAlgo algo2;
+    MyAlgo algo3;
+    MyAlgo algo4;
+    MyAlgo algo5;
 
 
 
 
-    public TestAlgo2Test(){
+    public MyAlgoTest(){
         Simulator_A.initData(1,null);
         b1 = Simulator_A.getBuilding();
         Simulator_A.initData(2,null);
@@ -29,11 +29,11 @@ class TestAlgo2Test {
         b3 = Simulator_A.getBuilding();
         Simulator_A.initData(0,null);
         b0 = Simulator_A.getBuilding();
-        algo1 = new TestAlgo2(b1);
-        algo2 = new TestAlgo2(b2);
-        algo3 = new TestAlgo2(b3);
-        algo4 = new TestAlgo2(b0);
-        algo5 = new TestAlgo2(b0);
+        algo1 = new MyAlgo(b1);
+        algo2 = new MyAlgo(b2);
+        algo3 = new MyAlgo(b3);
+        algo4 = new MyAlgo(b0);
+        algo5 = new MyAlgo(b0);
 
     }
 
@@ -451,21 +451,21 @@ class TestAlgo2Test {
 
             Simulator_A.initData(0, null);//choose case 0
             b1 = Simulator_A.getBuilding();
-            TestAlgo2 myAlgo1 = new TestAlgo2(b1);
+            MyAlgo myAlgo1 = new MyAlgo(b1);
             Simulator_A.initAlgo(myAlgo1);
                 Simulator_A.runSim();
                 // in case 0 our elevator should finish all the calls and be in floor 0
             assertEquals(0,myAlgo1.getBuilding().getElevetor(0).getPos());
         Simulator_A.initData(1, null);//choose case 9
         b1 = Simulator_A.getBuilding();
-        myAlgo1 = new TestAlgo2(b1);
+        myAlgo1 = new MyAlgo(b1);
         Simulator_A.initAlgo(myAlgo1);
         Simulator_A.runSim();
         // our elevator should finish at floor -2
         assertEquals(-2,myAlgo1.getBuilding().getElevetor(0).getPos());
         Simulator_A.initData(9, null);//choose case 9
         b1 = Simulator_A.getBuilding();
-        myAlgo1 = new TestAlgo2(b1);
+        myAlgo1 = new MyAlgo(b1);
         Simulator_A.initAlgo(myAlgo1);
         Simulator_A.runSim();
         for(int i=0;i<b1.numberOfElevetors();i++)

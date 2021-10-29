@@ -6,7 +6,7 @@ import ex0.Elevator;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class TestAlgo2 implements ElevatorAlgo {
+public class MyAlgo implements ElevatorAlgo {
     private final Building building;
     public final ArrayList<Integer>[] route;
     private final ArrayList<CallForElevator>[] calls;
@@ -19,7 +19,7 @@ public class TestAlgo2 implements ElevatorAlgo {
     private boolean goDown = false;
     private int flag = 2;
 
-    public TestAlgo2(Building b) {
+    public MyAlgo(Building b) {
         this.building = b;
         this.numberOfElevators = b.numberOfElevetors();
         this.route = new ArrayList[this.numberOfElevators];
