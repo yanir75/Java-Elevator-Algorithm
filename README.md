@@ -1,4 +1,4 @@
-# Assignment 0 - Object Oriented Programming
+# Assignment 0 - Object Oriented Programming :elevator:
 
 **Yanir Cohen**  
 **Netanel Levine** 
