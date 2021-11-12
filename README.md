@@ -49,6 +49,6 @@ Meaning we will go over the route of each elevator in the building and will choo
 ---
   
    ![Elevator](https://user-images.githubusercontent.com/74298433/141529107-3a273664-8d12-4cb6-88b6-4b2427c20cf9.png)
-   <p align="center">
+   <Elevator align="center">
     <img width="460" height="300" src="http://www.fillmurray.com/460/300">
-   </p>
+   </Elevator>
