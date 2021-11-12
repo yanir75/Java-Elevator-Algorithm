@@ -1,7 +1,7 @@
 # Assignment 0 - Object Oriented Programming
 
 **Yanir Cohen**  
-@netanellevine 
+**Netanel Levine** 
 
 
 ## Sources:
