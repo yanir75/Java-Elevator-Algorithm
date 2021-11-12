@@ -12,7 +12,7 @@
 
 
 
-### Offline Algorithm:
+## Offline Algorithm:
 
 Our offline algorithm is similar to the Look algorithm with some modifications.
 First we will divide it into 2 arrays , one for all the calls which are going up and one for all the calls which are going down.
@@ -25,7 +25,7 @@ When an elevator has reached the destination, go to the next and nearest call so
 
 
 
-#### Online Algorithm:
+## Online Algorithm:
 
 1. First divide into 3 cases: flag 0, flag 1 and flag 2.
 
