@@ -1,4 +1,4 @@
-#Assignment 0 - Object Oriented Programming
+# Assignment 0 - Object Oriented Programming
 
 Yanir Cohen 
 Netanel Levine 
@@ -27,13 +27,13 @@ When an elevator has reached the destination, go to the next and nearest call so
 
 **Online Algorithm:**
 
-1. First divide into 3 cases: flag 0 , flag 1 and flag 2.
+1. First divide into 3 cases: flag 0, flag 1 and flag 2.
 
-   -Flag 0 will be designed for a case in which the building has only one Elevator.
+   - Flag 0 will be designed for a case in which the building has only one Elevator.
 
-   -Flag 1 is designed for a building with slow Elevators and a high amount of floors.
+   - Flag 1 is designed for a building with slow Elevators and a high amount of floors.
 
-   -Flag 2 is designed for a building with fast Elevators or a decent amount of floors.
+   - Flag 2 is designed for a building with fast Elevators or a decent amount of floors.
 
 2. Flag 0 will check if there is a stop in between the calls and pick them up otherwise it will complete its’ existing route.
      
