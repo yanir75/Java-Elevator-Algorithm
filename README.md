@@ -13,7 +13,7 @@
 
 
 In this project we implemented the online algorithm.  
-For the offline project please check this [link](https://github.com/yanir75/Python-Elevator-Algorithm.git)
+For our offline algorithm project please check this [link](https://github.com/yanir75/Python-Elevator-Algorithm.git)
 
 ## Offline Algorithm:
 
