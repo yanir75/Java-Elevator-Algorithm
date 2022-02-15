@@ -10,7 +10,10 @@
   - https://github.com/00111000/Elevator-Scheduling-Simulator
   - https://www.researchgate.net/publication/31595225_Estimated_Time_of_Arrival_ETA_Based_Elevator_Group_Control_Algorithm_with_More_Accurate_Estimation
 
-In java project we implemented the online algorithm.
+
+
+In this project we implemented the online algorithm.  
+For the offline project please check this link
 
 ## Offline Algorithm:
 
